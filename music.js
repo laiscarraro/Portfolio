@@ -1,14 +1,14 @@
-var osc;
+var wave;
 
 function setup() {
-  var osc = new p5.Oscillator();
-  osc.setType('triangle');
-  osc.amp(0);
-  playNote(240, 2);
-  playNote(440, 1);
+  var wave = new p5.Oscillator();
+  wave.setType('triangle');
+  wave.amp(0);
+  playNote(240, 2, wave);
+  playNote(440, 1, wave);
 }
 
-function playNote(note, duration) {
+function playNote(note, duration, osc) {
   osc.freq(note);
   
   // Fade it in
