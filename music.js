@@ -3,7 +3,7 @@ var wave;
 function setup() {
   var wave = new p5.Oscillator();
   wave.setType('triangle');
-  wave.amp(0);
+  wave.amp(0.5);
   playNote(240, 2, wave);
   playNote(440, 1, wave);
 }
