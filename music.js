@@ -5,7 +5,7 @@ function setup() {
   wave.amp(0.5, 0.5);
   wave.freq(440);
   wave.stop(1);
-  wave.start();
+  wave.start(1);
   wave.freq(460);
   wave.stop(2);
 }
