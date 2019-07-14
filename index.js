@@ -15,7 +15,7 @@ var palette = [
 var menu;
 
 function setup() {
-  menu = createMenu(["Genetic Algorithm", "sla", "aaaaa"], ["geneticAlgorithm.html", "sla.html", "aaaaa.html"]);
+  menu = createMenu(["Genetic Algorithm", "music", "aaaaa"], ["geneticAlgorithm.html", "music.html", "aaaaa.html"]);
 }
 
 function draw() {
