@@ -28,7 +28,7 @@ function setup() {
 function draw() {
 	background(255);
 	fill(0);
-	text("Target:  64  62  60  62  64  64  64", 100, 100);
+	text("Target:  64  64  64  60  64  67  55", 100, 100);
 	text("Current: ", 100, 130);
 	for(var k = 0; k < notes.length; k++) {
 		text(notes[k], 150 + k*20, 130);
