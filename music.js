@@ -11,7 +11,7 @@ function setup() {
   createCanvas(640, 360);
   target = [64, 62, 60, 62, 64, 64, 64];
   popmax = 100;
-  mutationRate = 0.01;
+  mutationRate = 0.1;
 
   // Create a populationation with a target phrase, mutation rate, and populationation max
   population = new Population(target, mutationRate, popmax);
@@ -30,19 +30,18 @@ function draw() {
 	for(var k = 0; k < notes.length; k++) {
 		text(notes[k], 150 + k*20, 130);
 	}
-	if(index <= notes.length) {
+	if(index < notes.length) {
 		playNote(midiToFreq(notes[index]), 2);
 		index = index + 1;
 	} else {
+		if(population.finished) {
+			noLoop();
+		}
 		index = 0;
 		population.naturalSelection();
 		population.generate();
 		population.calcFitness();
 		notes = population.getBest();
-	}
-
-	if(population.finished) {
-		noLoop();
 	}
 }
 
@@ -186,6 +185,7 @@ class DNA {
         }
      }
      this.fitnessScore = score/target.length;
+     this.fitnessScore = pow(this.fitnessScore, 4);
   }
   
   crossover(partner) {
