@@ -5,6 +5,8 @@ var population;
 
 var osc;
 var notes = [64, 62, 60, 62, 64, 64, 64];
+var done = [60, 64, 67, 72, 72];
+var doneBool = false;
 var index = 0;
 
 function setup() {
@@ -33,15 +35,24 @@ function draw() {
 	if(index < notes.length) {
 		playNote(midiToFreq(notes[index]), 2);
 		index = index + 1;
+		if(doneBool === true) {
+			if(index == notes.length - 1) {
+				noLoop();
+			}
+		}
 	} else {
 		if(population.finished) {
-			noLoop();
+			index = 0;
+			notes = done;
+			doneBool = true;
 		}
-		index = 0;
-		population.naturalSelection();
-		population.generate();
-		population.calcFitness();
-		notes = population.getBest();
+		if(doneBool === false) {
+			index = 0;
+			population.naturalSelection();
+			population.generate();
+			population.calcFitness();
+			notes = population.getBest();
+		}
 	}
 }
 
@@ -97,7 +108,6 @@ class Population {
     for (var i = 0; i < this.population.length; i++) {
       if (this.population[i].fitnessScore > maxFitness) {
         maxFitness = this.population[i].fitnessScore;
-        console.log(maxFitness);
       }
     }
 
@@ -184,8 +194,8 @@ class DNA {
         	score += 1;
         }
      }
-     this.fitnessScore = score/target.length;
-     this.fitnessScore = pow(this.fitnessScore, 4);
+     this.fitnessScore = pow(2, score);
+     this.fitnessScore = map(this.fitnessScore, 0, pow(2, target.length), 0, 1);
   }
   
   crossover(partner) {
