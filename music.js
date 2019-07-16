@@ -4,14 +4,15 @@ var mutationRate;
 var population;
 
 var osc;
-var notes = [64, 62, 60, 62, 64, 64, 64];
+var notes = [64, 64, 64, 60, 64, 67, 55];
+var durations = [1, 1, 1, 0.5, 0.5, 2, 2];
 var done = [60, 64, 67, 72, 72];
 var doneBool = false;
 var index = 0;
 
 function setup() {
   createCanvas(640, 360);
-  target = [64, 62, 60, 62, 64, 64, 64];
+  target = [64, 64, 64, 60, 64, 67, 55];
   popmax = 100;
   mutationRate = 0.1;
 
@@ -27,13 +28,13 @@ function setup() {
 function draw() {
 	background(255);
 	fill(0);
-	text("Target:  64  62  60  62  64  64  64", 100, 100);
+	text("Target:  64  64  64  60  64  67  55", 100, 100);
 	text("Current: ", 100, 130);
 	for(var k = 0; k < notes.length; k++) {
 		text(notes[k], 150 + k*20, 130);
 	}
 	if(index < notes.length) {
-		playNote(midiToFreq(notes[index]), 2);
+		playNote(midiToFreq(notes[index]), durations[index]);
 		index = index + 1;
 		if(doneBool === true) {
 			if(index == notes.length - 1) {
@@ -142,7 +143,7 @@ class Population {
         worldrecord = this.population[i].fitnessScore;
       }
     }
-    
+
     if (worldrecord == this.perfectScore) {
     	this.finished = true;
     }
@@ -174,7 +175,7 @@ class DNA {
   
   float fitness;
   */
-  
+
   constructor(size) {
   	this.fitnessScore = 0;
     this.genes = [];
@@ -182,28 +183,25 @@ class DNA {
       this.genes.push(int(random(30, 81)));
     }
   }
-  
+
   getPhrase() {
     return this.genes;
   }
-  
+
   fitness(target) {
      var score = 0;
      for (var i = 0; i < this.genes.length; i++) {
-        if(this.genes[i] == target[i]) {
-        	score += 1;
-        }
+        score += pow((this.genes[i] - target[i]), 2);
      }
-     this.fitnessScore = pow(2, score);
-     this.fitnessScore = map(this.fitnessScore, 0, pow(2, target.length), 0, 1);
+     this.fitnessScore = pow(score, 1/2);
   }
-  
+
   crossover(partner) {
     // A new child
     var child = new DNA(this.genes.length);
-    
+
     var midpoint = int(random(this.genes.length));
-    
+
     for (var i = 0; i < this.genes.length; i++) {
       if (i > midpoint) {
       	child.genes[i] = this.genes[i];
@@ -213,7 +211,7 @@ class DNA {
     }
     return child;
   }
-  
+
   mutate(mutationRate) {
     for (var i = 0; i < this.genes.length; i++) {
       if (random(1) < mutationRate) {
