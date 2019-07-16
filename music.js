@@ -4,15 +4,14 @@ var mutationRate;
 var population;
 
 var osc;
-var notes = [64, 64, 64, 60, 64, 67, 55];
-var durations = [1, 1, 1, 0.5, 0.5, 2, 2];
+var notes = [64, 62, 60, 62, 64, 64, 64];
 var done = [60, 64, 67, 72, 72];
 var doneBool = false;
 var index = 0;
 
 function setup() {
   createCanvas(640, 360);
-  target = [64, 64, 64, 60, 64, 67, 55];
+  target = [64, 62, 60, 62, 64, 64, 64];
   popmax = 100;
   mutationRate = 0.1;
 
@@ -28,13 +27,13 @@ function setup() {
 function draw() {
 	background(255);
 	fill(0);
-	text("Target:  64  64  64  60  64  67  55", 100, 100);
+	text("Target:  64  62  60  62  64  64  64", 100, 100);
 	text("Current: ", 100, 130);
 	for(var k = 0; k < notes.length; k++) {
 		text(notes[k], 150 + k*20, 130);
 	}
 	if(index < notes.length) {
-		playNote(midiToFreq(notes[index]), durations[index]);
+		playNote(midiToFreq(notes[index]), 2);
 		index = index + 1;
 		if(doneBool === true) {
 			if(index == notes.length - 1) {
