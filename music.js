@@ -92,7 +92,7 @@ class Population {
     this.calcFitness();
     this.finished = false;
     this.generations = 0;
-    this.perfectScore = 0;
+    this.perfectScore = 1;
   }
 
   calcFitness() {
@@ -104,17 +104,17 @@ class Population {
   naturalSelection() {
     this.matingPool = [];
 
-    var minFitness = 128;
+    var maxFitness = 0;
 
     for (var i = 0; i < this.population.length; i++) {
-      if (this.population[i].fitnessScore < minFitness) {
-        minFitness = this.population[i].fitnessScore;
+      if (this.population[i].fitnessScore > maxFitness) {
+        maxFitness = this.population[i].fitnessScore;
       }
     }
 
     for (var i = 0; i < this.population.length; i++) {
-      var fit = map(this.population[i].fitnessScore, minFitness, 128, 0, 1);
-      var n = (1/(fit+1)) * 100;
+      var fit = map(this.population[i].fitnessScore, 0, maxFitness, 0, 1);
+      var n = fit * 100;
       for (var j = 0; j < n; j++) {           
         this.matingPool.push(this.population[i]);
       }
@@ -135,10 +135,10 @@ class Population {
   }
 
   getBest() {
-    var worldrecord = 128;
+    var worldrecord = 0;
     var index = 0;
     for (var i = 0; i < this.population.length; i++) {
-      if (this.population[i].fitnessScore < worldrecord) {
+      if (this.population[i].fitnessScore > worldrecord) {
         index = i;
         worldrecord = this.population[i].fitnessScore;
       }
@@ -191,9 +191,11 @@ class DNA {
   fitness(target) {
      var score = 0;
      for (var i = 0; i < this.genes.length; i++) {
-        score += pow((this.genes[i] - target[i]), 2);
+        if(this.genes[i] == target[i]){
+		score++;
+	}
      }
-     this.fitnessScore = pow(score, 1/2);
+     this.fitnessScore = score/target.length;
   }
 
   crossover(partner) {
