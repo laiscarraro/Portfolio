@@ -189,13 +189,11 @@ class DNA {
   }
 
   fitness(target) {
-     target = sort(target);
-     g = sort(this.genes);
      var score = 0;
-     for (var i = 0; i < g.length; i++) {
-        score += pow((g[i] - target[i]), 2);
+     for (var i = 0; i < this.genes.length; i++) {
+        score += pow((this.genes[i] - target[i]), 2);
      }
-     this.fitnessScore = pow(score, 1/2);
+     this.fitnessScore = 1/pow(score, 1/2);
   }
 
   crossover(partner) {
