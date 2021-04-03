@@ -8,6 +8,7 @@ var amp;
 var button;
 var osc;
 var i = 0;
+var c = true;
 var play = false;
 
 var volhistory = [];
@@ -83,6 +84,17 @@ function draw() {
     frameRate(2/oboe_tmp[i]);
     i = i+1;
   }
+  if (!play) {
+    fill(255);
+    } else {
+      if (c) {
+        fill(255);
+      } else {
+        fill(255, 0, 0)
+      }
+      c = !c;
+    }
+  ellipse(windowWidth/2, windowHeight/2, 150)
   // var vol = amp.getLevel();
   // volhistory.push(vol);
   // stroke(0);
