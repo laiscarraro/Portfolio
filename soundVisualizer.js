@@ -25,6 +25,10 @@ var index_bassoon = 0;
 var index_contrabass = 0;
 var index_triangle = 0;
 
+var vol_oboe = 0;
+var vol_bassoon = 0;
+var vol_triangle = 0;
+
 last_fill_oboe = [255, 255, 255]
 last_fill_bassoon = [255, 255, 255]
 last_fill_triangle = [255, 255, 255]
@@ -32,22 +36,28 @@ last_fill_triangle = [255, 255, 255]
 function changeFillOboe() {
   if (last_fill_oboe[0] == last_fill_oboe[1]) {
     last_fill_oboe = [255, 0, 0];
+    vol_oboe = 100;
   } else {
     last_fill_oboe = [255, 255, 255];
+    vol_oboe = 0;
   }
 }
 function changeFillBassoon() {
   if (last_fill_bassoon[0] == last_fill_bassoon[1]) {
     last_fill_bassoon = [0, 255, 0];
+    vol_bassoon = 100;
   } else {
     last_fill_bassoon = [255, 255, 255];
+    vol_bassoon = 0;
   }
 }
 function changeFillTriangle() {
   if (last_fill_triangle[0] == last_fill_triangle[2]) {
     last_fill_triangle = [0, 0, 255];
+    vol_triangle = 100;
   } else {
     last_fill_triangle = [255, 255, 255];
+    vol_triangle = 0;
   }
 }
 
@@ -93,7 +103,7 @@ function draw() {
   fill(last_fill_triangle[0], last_fill_triangle[1], last_fill_triangle[2]);
   for (var i = 10; i < windowHeight-10; i=i+50) {
     for (var j = 50; j < (windowWidth/3); j=j+50) {
-      ellipse(j, i, 10 + vol*100);
+      ellipse(j, i, 10 + vol*vol_triangle);
     }
   }
 
@@ -105,7 +115,7 @@ function draw() {
   fill(last_fill_oboe[0], last_fill_oboe[1], last_fill_oboe[2]);
   for (var i = 10; i < windowHeight-10; i=i+50) {
     for (var j = (windowWidth/3) + 50; j < 2*(windowWidth)/3; j=j+50) {
-      ellipse(j, i, 10 + vol*100);
+      ellipse(j, i, 10 + vol*vol_oboe);
     }
   }
 
@@ -117,7 +127,7 @@ function draw() {
   fill(last_fill_bassoon[0], last_fill_bassoon[1], last_fill_bassoon[2]);
   for (var i = 10; i < windowHeight-10; i=i+50) {
     for (var j = 50 + 2*(windowWidth/3); j < 3*(windowWidth/3); j=j+50) {
-      ellipse(j, i, 10 + vol*100);
+      ellipse(j, i, 10 + vol*vol_bassoon);
     }
   }
 
