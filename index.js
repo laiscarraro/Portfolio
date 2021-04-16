@@ -15,7 +15,7 @@ var palette = [
 var menu;
 
 function setup() {
-  menu = createMenu(["Music Genetic Algorithm", "MIDI Player", "Sound Visualizer", "smellsLikeTeenSpirit"], ["music.html", "midiPlayer.html", "soundVisualizer.html", "smellsLikeTeenSpirit.html"]);
+  menu = createMenu(["Music Genetic Algorithm", "MIDI Player", "Sound Visualizer", "smellsLikeTeenSpirit", "ChocoCast"], ["music.html", "midiPlayer.html", "soundVisualizer.html", "smellsLikeTeenSpirit.html", "chococast.html"]);
 }
 
 function draw() {
