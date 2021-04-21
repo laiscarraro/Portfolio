@@ -19,7 +19,7 @@ var img_lais;
 var img_anna;
 var img_hoffman;
 
-var rects = [];
+var volhistory = [];
 
 function toggleSong() {
   if (lais.isPlaying()) {
@@ -45,14 +45,12 @@ function preload() {
   img_hoffman = loadImage('hoffman.png');
 }
 
+var y;
+
 function setup() {
   createCanvas(windowWidth, windowHeight-30);
   button = createButton('PLAY');
   button.mousePressed(toggleSong);
-
-  for(var i = 0; i <= 200; i ++) {
-    rects.push([random(20), random(35, 255)]);
-  }
 
   amp_lais = new p5.Amplitude();
   amp_lais.setInput(lais);
@@ -69,10 +67,8 @@ function setup() {
   image(img_hoffman, 3*windowWidth/4, windowHeight/2, 200, 200);
 }
 
-var y = 0;
-
 function draw() {
-
+  //fundo
   noStroke();
   fill(30);
   rect(0, windowHeight - 200, windowWidth, 200);
@@ -82,6 +78,7 @@ function draw() {
   rect(windowWidth/2 + 100, 0, 140, windowHeight);
   rect(3*windowWidth/4 + 100, 0, 500, windowHeight);
 
+  //pessoinhas
   noFill();
   stroke(30);
   strokeWeight(50);
@@ -97,23 +94,28 @@ function draw() {
   ellipse(windowWidth/2, windowHeight/2, 211 + vol_anna*150, 211 + vol_anna*150);
   ellipse(3*windowWidth/4, windowHeight/2, 211 + vol_hoffman*150, 211 + vol_hoffman*150);
 
+  strokeWeight(1);
+  //linha
+  width = windowWidth;
+  height = windowHeight/2 - 10;
   var vol_musica = amp_musica.getLevel();
-  var vol = map(vol_musica, 0, 1, 0, windowWidth/4);
-
-  noStroke();
-
-  for (var i = 0; i <= 200; i++) {
-    fill(rects[i][1]);
-    if(10*i < windowWidth/4 - 110 || 
-      (10*i > windowWidth/4 + 110 && 10*i < windowWidth/2 - 110) ||
-      (10*i > windowWidth/2 + 110 && 10*i < 3*windowWidth/4 - 110) ||
-      (10*i > 3*windowWidth/4 + 110) ||
-      windowHeight - vol*rects[i][0] - 100 > windowHeight - 200) {
-      rect(10*i, windowHeight - vol*rects[i][0] - 100, 10, 10);
-      //rect(10*i, vol*rects[i][0] + 100, 10, 10);
-    } else {
-      rect(10*i, windowHeight - 200, 10, 10);
-      //rect(10*i, 200, 10, 10);
+  volhistory.push(vol_musica);
+  stroke(255);
+  //noFill();
+  push();
+  var currentY = map(vol_musica, 0, 1, height, 0);
+  translate(350, height / 2 - currentY);
+  beginShape();
+  for (var i = 0; i < volhistory.length; i++) {
+    y = map(volhistory[i], 0, 1, height, -5000);
+    if(y <= 200) {
+      y = map(volhistory[i], 0, 1, height, 0);
     }
+    vertex(i, y);
+  }
+  endShape();
+  pop();
+  if (volhistory.length > width - 700) {
+    volhistory.splice(0, 1);
   }
 }
