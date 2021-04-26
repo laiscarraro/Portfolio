@@ -36,10 +36,10 @@ function toggleSong() {
 }
 
 function preload() {
-  lais = loadSound('lais.mp3');
-  anna = loadSound('anna.mp3');
-  hoffman = loadSound('hoffman.mp3');
-  musica = loadSound('musica.mp3');
+  lais = loadSound('mp3/lais.mp3');
+  anna = loadSound('mp3/anna.mp3');
+  hoffman = loadSound('mp3/hoffman.mp3');
+  musica = loadSound('mp3/musica.mp3');
   img_lais = loadImage('lais.png');
   img_anna = loadImage('anna.png');
   img_hoffman = loadImage('hoffman.png');
@@ -48,9 +48,8 @@ function preload() {
 var y;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight-30);
-  button = createButton('PLAY');
-  button.mousePressed(toggleSong);
+  let cnv = createCanvas(windowWidth, windowHeight);
+  cnv.mouseClicked(toggleSong);
 
   amp_lais = new p5.Amplitude();
   amp_lais.setInput(lais);
@@ -62,9 +61,9 @@ function setup() {
   amp_musica.setInput(musica);
   background(30);
   imageMode(CENTER);
-  image(img_lais, windowWidth/4, windowHeight/2, 200, 200);
-  image(img_anna, windowWidth/2, windowHeight/2, 200, 200);
-  image(img_hoffman, 3*windowWidth/4, windowHeight/2, 200, 200);
+  image(img_lais, windowWidth/4, 50 + windowHeight/2, 200, 200);
+  image(img_anna, windowWidth/2, 50 + windowHeight/2, 200, 200);
+  image(img_hoffman, 3*windowWidth/4, 50 + windowHeight/2, 200, 200);
 }
 
 function draw() {
@@ -72,7 +71,7 @@ function draw() {
   noStroke();
   fill(30);
   rect(0, windowHeight - 200, windowWidth, 200);
-  rect(0, 0, windowWidth, 200);
+  rect(0, 0, windowWidth, 320);
   rect(0, 0, windowWidth/4 - 100, windowHeight);
   rect(windowWidth/4 + 100, 0, 140, windowHeight);
   rect(windowWidth/2 + 100, 0, 140, windowHeight);
@@ -82,22 +81,22 @@ function draw() {
   noFill();
   stroke(30);
   strokeWeight(50);
-  ellipse(windowWidth/4, windowHeight/2, 250, 250);
-  ellipse(windowWidth/2, windowHeight/2, 250, 250);
-  ellipse(3*windowWidth/4, windowHeight/2, 250, 250);
+  ellipse(windowWidth/4, (50 + windowHeight/2), 250, 250);
+  ellipse(windowWidth/2, (50 + windowHeight/2), 250, 250);
+  ellipse(3*windowWidth/4, (50 + windowHeight/2), 250, 250);
   var vol_lais = amp_lais.getLevel();
   var vol_anna = amp_anna.getLevel();
   var vol_hoffman = amp_hoffman.getLevel();
   strokeWeight(8);
   stroke(255);
-  ellipse(windowWidth/4, windowHeight/2, 211 + vol_lais*150, 211 + vol_lais*150);
-  ellipse(windowWidth/2, windowHeight/2, 211 + vol_anna*150, 211 + vol_anna*150);
-  ellipse(3*windowWidth/4, windowHeight/2, 211 + vol_hoffman*150, 211 + vol_hoffman*150);
+  ellipse(windowWidth/4, (50 + windowHeight/2), 211 + vol_lais*150, 211 + vol_lais*150);
+  ellipse(windowWidth/2, (50 + windowHeight/2), 211 + vol_anna*150, 211 + vol_anna*150);
+  ellipse(3*windowWidth/4, (50 + windowHeight/2), 211 + vol_hoffman*150, 211 + vol_hoffman*150);
 
   strokeWeight(1);
   //linha
   width = windowWidth;
-  height = windowHeight/2 - 10;
+  height = (50 + windowHeight/2) - 10;
   var vol_musica = amp_musica.getLevel();
   volhistory.push(vol_musica);
   stroke(255);
@@ -107,8 +106,8 @@ function draw() {
   translate(350, height / 2 - currentY);
   beginShape();
   for (var i = 0; i < volhistory.length; i++) {
-    y = map(volhistory[i], 0, 1, height, -5000);
-    if(y <= 200) {
+    y = map(volhistory[i], 0, 1, height, -15000);
+    if(y <= 250) {
       y = map(volhistory[i], 0, 1, height, 0);
     }
     vertex(i, y);
